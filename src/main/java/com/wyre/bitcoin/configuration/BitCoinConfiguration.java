@@ -13,8 +13,8 @@ import java.io.File;
 @Configuration
 public class BitCoinConfiguration {
 
-//    @Value("${bitcoin-network}")
-//    private String network;
+    @Value("${bitcoin-network}")
+    private String network;
 
     @Value("${bitcoin-folder}")
     private String folder;
@@ -22,19 +22,18 @@ public class BitCoinConfiguration {
     @Value("${bitcoin-prefix-file}")
     private String prefixFile;
 
-//    @Bean
-//    public NetworkParameters networkParameters(){
-//        if(NetworkParameters.ID_TESTNET.equals(network)){
-//            return TestNet3Params.get();
-//        }else{
-//            return MainNetParams.get();
-//        }
-//    }
+    @Bean
+    public NetworkParameters networkParameters(){
+        if(NetworkParameters.ID_TESTNET.equals(network)){
+            return TestNet3Params.get();
+        }else{
+            return MainNetParams.get();
+        }
+    }
 
     @Bean
-    public WalletAppKit walletAppKit(){
-        //return new WalletAppKit(net,new File(folder),prefixFile);
-        return new WalletAppKit(TestNet3Params.get(),new File(folder),prefixFile);
+    public WalletAppKit walletAppKit(NetworkParameters netWork){
+        return new WalletAppKit(netWork,new File(folder),prefixFile);
     }
 
 }

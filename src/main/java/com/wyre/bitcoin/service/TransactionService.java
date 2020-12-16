@@ -12,21 +12,25 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
+@RequiredArgsConstructor(onConstructor_= @Autowired)
 public class TransactionService {
 
     private final WalletAppKit walletAppKit;
 
     @PostConstruct
-    public void postConstructor(){
+    public void postConstructor() throws InterruptedException {
         walletAppKit.startAsync();
-        //log.info("************************************  NetID :" + walletAppKit.wallet().getNetworkParameters().getId());
         walletAppKit.awaitRunning();
-    }
+        Thread.sleep(1000);
+        log.info("************************************");
+        log.info("************************************");
+        String myAddress = walletAppKit.wallet().freshAddress(KeyChain.KeyPurpose.RECEIVE_FUNDS).toString();
+        log.info(myAddress);
+        log.info("************************************");
+        log.info("************************************");
 
-//    public String createPaymentAddress(){
-//        return walletAppKit.wallet().freshAddress(KeyChain.KeyPurpose.RECEIVE_FUNDS).toString();
-//    }
+    }
 
     public void addListener(PaymentReceiverListener receiver){
         walletAppKit.wallet().addCoinsReceivedEventListener(receiver);
