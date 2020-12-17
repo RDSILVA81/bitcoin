@@ -1,7 +1,6 @@
 package com.wyre.bitcoin.service;
 
 import com.wyre.bitcoin.listener.PaymentReceiverListener;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bitcoinj.kits.WalletAppKit;
@@ -22,14 +21,8 @@ public class TransactionService {
     public void postConstructor() throws InterruptedException {
         walletAppKit.startAsync();
         walletAppKit.awaitRunning();
-        Thread.sleep(1000);
-        log.info("************************************");
-        log.info("************************************");
         String myAddress = walletAppKit.wallet().freshAddress(KeyChain.KeyPurpose.RECEIVE_FUNDS).toString();
-        log.info(myAddress);
-        log.info("************************************");
-        log.info("************************************");
-
+        log.info("My Address : " + myAddress);
     }
 
     public void addListener(PaymentReceiverListener receiver){

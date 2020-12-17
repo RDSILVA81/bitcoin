@@ -23,7 +23,9 @@ public class PaymentReceiverListener implements WalletCoinsReceivedEventListener
 
     private final TransactionService service;
 
-    private PaymentRepo repo;
+    private static final double BITCOIN_VAL = 0.00000001;
+
+    private final PaymentRepo repo;
 
     @PostConstruct
     public void postConstruct(){
@@ -32,23 +34,10 @@ public class PaymentReceiverListener implements WalletCoinsReceivedEventListener
 
     @Override
     public void onCoinsReceived(Wallet wallet, Transaction transaction, Coin coin, Coin coin1) {
-        transaction.getOutputs().forEach(trx ->{
-
-            Coin val = transaction.getValueSentToMe(wallet);
-            Coin val2 = trx.getValue();
-            log.info("******************************************************************");
-            log.info("******************************************************************");
-            log.info("******************************************************************");
-            log.info("trx.getValue().toFriendlyString() : " + trx.getValue().toFriendlyString());
-            log.info("LegacyAddress.fromKey(wallet.getParams(),wallet.currentReceiveKey()): " + LegacyAddress.fromKey(wallet.getParams(),wallet.currentReceiveKey()));
-            log.info("trx.getScriptPubKey().toString(): "+ trx.getScriptPubKey().toString());
-            log.info("trx.getValue: "+ trx.getValue());
-            log.info("val: "+ val.getValue());
-            log.info("val-2: "+ val2.getValue());
-            log.info("coin: "+ coin.getValue());
-            log.info("******************************************************************");
-            log.info("******************************************************************");
-            log.info("******************************************************************");
-        });
+            Payment pay = new Payment();
+            pay.setPayFrom(LegacyAddress.fromKey(wallet.getParams(),wallet.currentReceiveKey()).toString());
+            pay.setPayDate(new Date());
+            pay.setValue(BITCOIN_VAL * transaction.getValueSentToMe(wallet).getValue());
+            repo.save(pay);
     }
 }

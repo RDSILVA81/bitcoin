@@ -1,26 +1,22 @@
 package com.wyre.bitcoin.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Getter
 @Setter
 @Entity(name = "Payment")
-@AllArgsConstructor
-@NoArgsConstructor
+@ToString
+@SequenceGenerator(name="seqPay", initialValue = 1)
 public class Payment {
     private String payFrom;
     private Date payDate;
     private double value;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqPay")
+    @Id private Integer id;
 }
