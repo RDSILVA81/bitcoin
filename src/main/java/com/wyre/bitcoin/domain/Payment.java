@@ -1,5 +1,6 @@
 package com.wyre.bitcoin.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,10 +13,11 @@ import java.util.Date;
 @Entity(name = "Payment")
 @ToString
 @SequenceGenerator(name="seqPay", initialValue = 1)
+@EqualsAndHashCode
 public class Payment {
     private String payFrom;
     private Date payDate;
-    private double value;
+    private Double value;
 
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqPay")
     @Id private Integer id;

@@ -7,6 +7,7 @@ import org.bitcoinj.params.TestNet3Params;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.io.File;
 
